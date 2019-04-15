@@ -20,7 +20,7 @@ public class Keyboard
 	public String toString()
 	{
 		return String.format("brand = %s\nmodel = %s\nstock = %s\nprice = %.2f\nswitchType = %s\n",
-				    brand, model, stock, price, switchType)
+				    brand, model, stock, price, switchType);
 	}
 	
 	
