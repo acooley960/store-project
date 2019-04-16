@@ -1,3 +1,13 @@
+/* Author: Aaron Cooley
+ * Date: 15 Apr. 2019
+ * Class: CSC160-Combo
+ * Assignment: Store Part 1
+ * 
+ * Class of keyboard items
+ * Complete with constructor, toString, getters and setters!
+ */
+
+
 package store;
 
 public class Keyboard
@@ -6,7 +16,7 @@ public class Keyboard
 	private String model;
 	private int stock;
 	private double price;
-	private int switchType;
+	private int switchType; // may change to String data type, or use 2D arrays
 	
 	// constructor and toString
 	public Keyboard(String b1, String m1, int s1, double p1, int st1)
