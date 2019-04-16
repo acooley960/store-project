@@ -16,7 +16,7 @@ public class TestingStuff
 	public static void main( String[ ] args ) throws FileNotFoundException
 	{
 		// create and print toString of a keyboard
-		Keyboard keyboard1 = new Keyboard ( "Razer", "Blackwidow Ultimate", 6, 69.99, 7 );
+		Keyboard keyboard1 = new Keyboard ( "Razer", "Blackwidow Ultimate", 6, 69.99, "Razer Mechanical" );
 		System.out.println ( keyboard1.toString ( ) );
 		
 		

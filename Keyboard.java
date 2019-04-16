@@ -16,10 +16,10 @@ public class Keyboard
 	private String model;
 	private int stock;
 	private double price;
-	private int switchType; // may change to String data type, or use 2D arrays
+	private String switchType; // may utilize 2D arrays
 	
 	// constructor and toString
-	public Keyboard(String b1, String m1, int s1, double p1, int st1)
+	public Keyboard(String b1, String m1, int s1, double p1, String st1)
 	{
 		brand = b1;
 		model = m1;
@@ -51,7 +51,7 @@ public class Keyboard
 	{
 		return stock;
 	}
-	public int getSwitchType()
+	public String getSwitchType()
 	{
 		return switchType;
 	}
@@ -71,7 +71,7 @@ public class Keyboard
 	{
 		stock = s2;
 	}
-	public void setSwitchType(int st2)
+	public void setSwitchType(String st2)
 	{
 		switchType = st2;
 	}
