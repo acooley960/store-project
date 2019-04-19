@@ -113,10 +113,10 @@ public class TestingStuff
 			}
 			catch (NullPointerException e)
 			{
-				break;
+				return i;
 			}
 		}
-		return i;
+		return -1;
 	}
 
 	// Aaron : 18 APR 19
