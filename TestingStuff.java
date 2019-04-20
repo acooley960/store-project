@@ -16,9 +16,9 @@ public class TestingStuff
 	public static void main( String[ ] args ) throws FileNotFoundException
 	{
 		// create and print toString of a keyboard
-		Keyboard razer= new Keyboard ( "Razer", "Blackwidow Ultimate","Razer Mechanical Green", 6, 69.99 );
+		/*Keyboard razer= new Keyboard ( "Razer", "Blackwidow Ultimate","Razer Mechanical Green", 6, 69.99 );
 		System.out.println ( razer.toString ( ) );
-		/*Keyboard keyboard1 = getKeyboard();
+		Keyboard keyboard1 = getKeyboard();
 		System.out.println (  );
 		Keyboard keyboard2 = getKeyboard();
 		System.out.println (  );
@@ -29,18 +29,7 @@ public class TestingStuff
 		//System.out.println ( "" + index );
 		addMoreKeyboards ( keyboards, index );
 
-		// Testing what's in the array, possibly turn this into a method later
-		for (int j = 0; j < keyboards.length; j++)
-		{
-			try
-			{
-				System.out.printf ( "Index %s -\n%s\n", j, keyboards[j].toString ( ));
-			} 
-			catch (NullPointerException e)
-			{// exits the loop after the keyboards have all been printed
-				break;
-			}
-		}
+		showMenu(keyboards);
 	}
 	
 	// Marco : 17 APR 19
@@ -104,12 +93,12 @@ public class TestingStuff
 		I know no other way to do this 
 		*/
 		int i = 0;
-		int dummy;
+		
 		for (; i < kb.length; i++)
 		{
 			try
 			{
-				dummy = kb[i].getStock ( );
+				kb[i].getStock ( );
 			}
 			catch (NullPointerException e)
 			{
@@ -135,7 +124,23 @@ public class TestingStuff
 		}
 	}
 	
-	
+	// Marco : 19 APR 19
+	// displays the menu
+	public static void showMenu(Keyboard[] kb)
+	{
+		// Testing what's in the array, possibly turn this into a method later
+		for (int j = 0; j < kb.length; j++)
+		{
+			try
+			{
+				System.out.printf ( "Listing %s -\n%s\n", j+1, kb[j].toStringMenu ( ));
+			} 
+			catch (NullPointerException e)
+			{// exits the loop after the keyboards have all been printed
+				break;
+			}
+		}
+	}
 }
 /*
  * 17APR19MARCO: added getKeyboard method and added lines 21-26
@@ -143,4 +148,5 @@ public class TestingStuff
  * 				added findPlace method to facilitate making new keyboards without deleting old ones, lines 105-129
  * 				added keyboard input into the same array for after file is read using addMoreKeyboards method: lines 121-135
  * 				added an output to see what is in Keyboard array, lines 32-43
+ * 19APR19MARCO: moved console output for testing Keyboard array into showMenu method
  */

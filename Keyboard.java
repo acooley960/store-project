@@ -19,7 +19,7 @@ public class Keyboard
 	private String switchType; // may utilize 2D arrays
 	
 	// constructor and toString
-	public Keyboard(String b1, String m1, int s1, double p1, String st1)
+	public Keyboard(String b1, String m1, String st1, int s1, double p1)
 	{
 		brand = b1;
 		model = m1;
@@ -29,8 +29,20 @@ public class Keyboard
 	}
 	public String toString()
 	{
-		return String.format("brand = %s\nmodel = %s\nstock = %s\nprice = %.2f\nswitchType = %s\n",
-				    brand, model, stock, price, switchType);
+		return String.format("brand = %s\nmodel = %s\nswitchType = %s\nstock = %s\nprice = %.2f\n",
+				    brand, model, switchType, stock, price);
+	}
+	// Marco : 19 APR 19
+	public String toStringMenu()
+	{
+		String result = String.format("brand = %s\nmodel = %s\nswitchType = %s\nstock = %s\nprice = %.2f\n",
+				    brand, model, switchType, stock, price);
+		if (stock > 5)
+		{
+			result = String.format("brand = %s\nmodel = %s\nswitchType = %s\nIn stock\nprice = %.2f\n",
+				    brand, model, switchType, price);
+		}
+		return result;
 	}
 	
 	
