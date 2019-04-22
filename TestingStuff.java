@@ -7,7 +7,7 @@
  */
 
 package store;
-import java.util.Scanner;
+import java.util.*;
 import java.io.*;
 
 public class TestingStuff
@@ -25,14 +25,30 @@ public class TestingStuff
 		Keyboard keyboard3 = getKeyboard();*/
 		// Aaron: 16 Apr
 		Keyboard[] keyboards = inputFromFile();
-		int index = findPlace(keyboards);
+		//int index = findPlace(keyboards);
 		//System.out.println ( "" + index );
-		addMoreKeyboards ( keyboards, index );
+		//addMoreKeyboards ( keyboards, index );
 
 		showMenu(keyboards);
+		System.out.print ( "What would you like to buy? Please type in the listing number: " );
+		int item = input.nextInt ( );
+		//System.out.println ( "Sweet! How many are you buying?" );
+		//int quantity = input.nextInt ( );
+		Cart[] itemsAtCheckout = new Cart[20];
+		itemsAtCheckout[0] = new Cart(1, keyboards[item-1]);
+		System.out.printf ( "You owe $%.2f.", itemsAtCheckout[0].getPrice ( ) );
+		
+		
+		/* Notes:
+		 *  - Need to have conditional statements for when we would sell something with no stock
+		 *    possibly have a "we don't have that many" printout for a quantity that exceeds stock
+		 *  - Must return checkout price (Cart.getPrice())
+		 */
+		
 	}
 	
 	// Marco : 17 APR 19
+	// polls the (employee) user for the informations of a new keyboard being sold
 	public static Keyboard getKeyboard()
 	{
 		
@@ -84,6 +100,7 @@ public class TestingStuff
 	
 	// Aaron : 18 APR 19
 	// returns first index of nonexistent keyboard in array
+	// to be used only between inputFromFile and addMoreKeyboards
 	public static int findPlace(Keyboard[] kb)
 	{
 		/* 
@@ -140,6 +157,13 @@ public class TestingStuff
 				break;
 			}
 		}
+	}
+	
+	// Aaron : 21 APR 19
+	public static void cart(Keyboard kb, int quantity)
+	{
+		
+		
 	}
 }
 /*
