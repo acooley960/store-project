@@ -61,7 +61,7 @@ public class TestingStuff
 			totalMissed += missedBuy;
 			
 			// reset available stock of item
-			( (LinkedList<Cart>) cart ).get ( cartIndex ).getItem().setStock ( maxBuy-quantity );
+			( (LinkedList<Cart>) cart ).get ( cartIndex ).getItem().removeStock ( quantity );
 			totalCost += ( (LinkedList<Cart>) cart ).get(cartIndex).getPrice();
 			for(int i = 0 ; i < cart.size( ) ; i++)
 			{
