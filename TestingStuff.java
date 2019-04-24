@@ -13,6 +13,8 @@ public class TestingStuff
 {
 	public static List<Cart> cart = new LinkedList<>();//linked list for cart to keep track of items in cart.
 	public static Scanner input = new Scanner(System.in);
+	public static Keyboard[] keyboards;
+	public static int totalMissed = 0;
 	public static void main( String[ ] args ) throws FileNotFoundException
 	{
 		// create and print toString of a keyboard
@@ -24,25 +26,51 @@ public class TestingStuff
 		System.out.println (  );
 		Keyboard keyboard3 = getKeyboard();*/
 		// Aaron: 16 Apr
-		Keyboard[] keyboards = inputFromFile();
-		//int index = findPlace(keyboards);
+		keyboards = inputFromFile();
+		//int index = findPlace();
 		//System.out.println ( "" + index );
-		//addMoreKeyboards ( keyboards, index );
-		showMenu(keyboards);
+		//addMoreKeyboards ( index );
+		
+		makeSale();
+	}
+	
+	public static void makeSale()
+	{
+		showKeyboardMenu();
 		char anotherItem = 'y';
-		int totalMissed = 0;
+		
 		double totalCost=0.0;
 		int quantity=0;
 		int cartIndex = -1; // instantly increments inside the do-while loop, functionally starts at 0
 		do
 		{
 			cartIndex++;
+			String password = "passWord4";
+			System.out.printf("The manager's password is %s\n", password);
 			System.out.print ( "What would you like to buy? Please type in the listing number: " );
-
-			int item = input.nextInt ( );
+			int item = -1;
+			
+			try
+			{
+				item = input.nextInt ( );
+			}
+			catch(InputMismatchException e)
+			{
+				String attempt = input.next();
+				if (attempt.equals(password))
+				{
+					// call manager's report
+					System.out.println("Howdy!");
+					break;
+				}
+				else
+				{
+					continue;
+				}
+			}
 			
 			Keyboard kb = keyboards[item - 1];
-			int maxBuy = keyboards[item - 1].getStock ( );
+			int maxBuy = kb.getStock ( );
 			System.out.printf ( "Sweet! How many are you buying?\nWe have %s in stock.", maxBuy );
 			quantity = input.nextInt ( );
 			int missedBuy = 0;
@@ -63,6 +91,7 @@ public class TestingStuff
 			// reset available stock of item
 			( (LinkedList<Cart>) cart ).get ( cartIndex ).getItem().removeStock ( quantity );
 			totalCost += ( (LinkedList<Cart>) cart ).get(cartIndex).getPrice();
+			// print out growing receipt
 			for(int i = 0 ; i < cart.size( ) ; i++)
 			{
 				if (( (LinkedList<Cart>) cart ).get(i).getQuantity() == 1)
@@ -86,14 +115,13 @@ public class TestingStuff
 			*/
 		} while ( anotherItem == 'y' );
 		
-		System.out.printf ( "The total was %s", totalCost );
+		System.out.printf ( "The total was %.2f", totalCost );
 		/* Notes:
 		 *  - Need to have conditional statements for when we would sell something with no stock
 		 *    possibly have a "we don't have that many" printout for a quantity that exceeds stock -- Done on 22APR19MARCO
 		 *    
 		 *  - Must return checkout price (Cart.getPrice()) -- Done on 22APR19MARCO
 		 */
-		
 	}
 	
 	// Marco : 17 APR 19
@@ -150,7 +178,7 @@ public class TestingStuff
 	// Aaron : 18 APR 19
 	// returns first index of nonexistent keyboard in array
 	// to be used only between inputFromFile and addMoreKeyboards
-	public static int findPlace(Keyboard[] kb)
+	public static int findPlace()
 	{
 		/* 
 		weird logic: set dummy variable to whichever keyboard stock value; 
@@ -160,11 +188,11 @@ public class TestingStuff
 		*/
 		int i = 0;
 		
-		for (; i < kb.length; i++)
+		for (; i < keyboards.length; i++)
 		{
 			try
 			{
-				kb[i].getStock ( );
+				keyboards[i].getStock ( );
 			}
 			catch (NullPointerException e)
 			{
@@ -176,14 +204,14 @@ public class TestingStuff
 
 	// Aaron : 18 APR 19
 	// adds user input into a Keyboard array
-	public static void addMoreKeyboards(Keyboard[] kb, int index)
+	public static void addMoreKeyboards(int index)
 	{
 		// couldn't figure out a good way to do this block as a do while loop, but it works
 		System.out.println ( "Do you want to add another keyboard? Y/n" );
 		int ans = input.next ( ).toLowerCase ( ).charAt ( 0 );
 		for (; ans == 'y'; index++)
 		{
-			kb[index] = getKeyboard ( );
+			keyboards[index] = getKeyboard ( );
 			
 			System.out.println ( "Do you want to add another keyboard? Y/n" );
 			ans = input.next ( ).toLowerCase ( ).charAt ( 0 );
@@ -192,14 +220,14 @@ public class TestingStuff
 	
 	// Marco : 19 APR 19
 	// displays the menu
-	public static void showMenu(Keyboard[] kb)
+	public static void showKeyboardMenu()
 	{
 		// Testing what's in the array, possibly turn this into a method later
-		for (int j = 0; j < kb.length; j++)
+		for (int j = 0; j < keyboards.length; j++)
 		{
 			try
 			{
-				System.out.printf ( "Listing %s -\n%s\n", j+1, kb[j].toStringMenu ( ));
+				System.out.printf ( "Listing %s -\n%s\n", j+1, keyboards[j].toStringMenu ( ));
 			} 
 			catch (NullPointerException e)
 			{// exits the loop after the keyboards have all been printed
