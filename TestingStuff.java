@@ -1,17 +1,17 @@
-/* Author: Aaron Cooley
+/* Author: Aaron Cooley & Marco Rojsa
  * Date: 15 Apr. 2019
  * Class: CSC160-Combo
  * Assignment: Store Part 1
  * 
  * Test the item class by creating an object and printing the toString
  */
-
 package store;
 import java.util.*;
 import java.io.*;
 
 public class TestingStuff
 {
+	public static List<Cart> cart = new LinkedList<>();//linked list for cart to keep track of items in cart.
 	public static Scanner input = new Scanner(System.in);
 	public static void main( String[ ] args ) throws FileNotFoundException
 	{
@@ -28,21 +28,61 @@ public class TestingStuff
 		//int index = findPlace(keyboards);
 		//System.out.println ( "" + index );
 		//addMoreKeyboards ( keyboards, index );
-
 		showMenu(keyboards);
-		System.out.print ( "What would you like to buy? Please type in the listing number: " );
-		int item = input.nextInt ( );
-		//System.out.println ( "Sweet! How many are you buying?" );
-		//int quantity = input.nextInt ( );
-		Cart[] itemsAtCheckout = new Cart[20];
-		itemsAtCheckout[0] = new Cart(1, keyboards[item-1]);
-		System.out.printf ( "You owe $%.2f.", itemsAtCheckout[0].getPrice ( ) );
+		char anotherItem = 'y';
+		int totalMissed = 0;
+		double totalCost=0.0;
+		int quantity=0;
+		int cartIndex = -1; // instantly increments inside the do-while loop, functionally starts at 0
+		do
+		{
+			cartIndex++;
+			System.out.print ( "What would you like to buy? Please type in the listing number: " );
+
+			int item = input.nextInt ( );
+			
+			Keyboard kb = keyboards[item-1];
+			int maxBuy = keyboards[item - 1].getStock ( );
+			System.out.printf ( "Sweet! How many are you buying?\nWe have %s in stock.",maxBuy );
+			quantity = input.nextInt ( );
+			int missedBuy = 0;
+			while ( quantity > maxBuy )/*NEED TO FIX: Currently it will replace 
+												the quantity from the first keyboard chosen to the quantity 
+												of the second keyboard chosen and so on.
+												FIXED! line 68, quantity -> ( (LinkedList<Cart>) cart ).get(i).getQuantity()
+												*/
+			{
+				missedBuy = 0;
+				System.out.printf ( "We only have %s in stock! Please enter a new quantity.", maxBuy );
+				quantity = input.nextInt ( );
+				missedBuy = quantity - maxBuy;
+			}
+			cart.add ( new Cart(quantity, kb) );
+			totalMissed += missedBuy;
+
+			keyboards[item - 1].setStock ( maxBuy-quantity );
+			totalCost += ( (LinkedList<Cart>) cart ).get(cartIndex).getPrice();
+			for(int i=0;i<cart.size();i++)
+			{
+				System.out.printf ( "\nYou chose %s %s's \nThe price per keyboard was $%.2f",
+						( (LinkedList<Cart>) cart ).get(i).getQuantity(),( (LinkedList<Cart>) cart ).get(i).getBrand() ,  ( (LinkedList<Cart>) cart ).get(i).getPrice() );
+			}
+			System.out.println ( "\nDo you have another item? y/n" );
+			anotherItem = input.next ( ).toLowerCase().charAt(0);
+			//old code commented out 22APR19Marco
+			/*
+			 Cart[] itemsAtCheckout = new Cart[20];
+			 itemsAtCheckout[0] = new Cart(1, keyboards[item-1]);
+			 System.out.printf ( "You owe $%.2f.", itemsAtCheckout[0].getPrice ( ) );
+			*/
+		} while ( anotherItem == 'y' );
 		
-		
+		System.out.printf ( "The total was %s", totalCost );
 		/* Notes:
 		 *  - Need to have conditional statements for when we would sell something with no stock
-		 *    possibly have a "we don't have that many" printout for a quantity that exceeds stock
-		 *  - Must return checkout price (Cart.getPrice())
+		 *    possibly have a "we don't have that many" printout for a quantity that exceeds stock -- Done on 22APR19MARCO
+		 *    
+		 *  - Must return checkout price (Cart.getPrice()) -- Done on 22APR19MARCO
 		 */
 		
 	}
@@ -160,11 +200,8 @@ public class TestingStuff
 	}
 	
 	// Aaron : 21 APR 19
-	public static void cart(Keyboard kb, int quantity)
-	{
-		
-		
-	}
+	//public static void cart(Keyboard kb, int quantity)
+	
 }
 /*
  * 17APR19MARCO: added getKeyboard method and added lines 21-26
@@ -173,4 +210,5 @@ public class TestingStuff
  * 				added keyboard input into the same array for after file is read using addMoreKeyboards method: lines 121-135
  * 				added an output to see what is in Keyboard array, lines 32-43
  * 19APR19MARCO: moved console output for testing Keyboard array into showMenu method
+ * 22APR19MARCO: 
  */
