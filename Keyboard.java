@@ -1,4 +1,4 @@
-/* Author: Aaron Cooley
+/* Author: Aaron Cooley & Marco Rojas
  * Date: 15 Apr. 2019
  * Class: CSC160-Combo
  * Assignment: Store Part 1
@@ -12,12 +12,20 @@ package store;
 
 public class Keyboard
 {
-	private String brand;
-	private String model;
-	private int stock;
-	private double price;
-	private String switchType; // may utilize 2D arrays
+	private String brand; // manufacturer of keyboard
+	private String model; // model of keyboard
+	private int stock; // how many we have in-store
+	private double price; // how much each keyboard costs to purchase
+	private String switchType; // the type of switch that the keyboard uses
 	
+	public Keyboard()
+	{
+		brand = "null";
+		model = "null";
+		stock = -1;
+		price = -1;
+		switchType = "null";
+	}
 	// constructor and toString
 	public Keyboard(String b1, String m1, String st1, int s1, double p1)
 	{
@@ -42,7 +50,20 @@ public class Keyboard
 			result = String.format("brand = %s\nmodel = %s\nswitchType = %s\nIn stock\nprice = %.2f\n",
 				    brand, model, switchType, price);
 		}
+		else if (stock == 0)
+		{
+			result = String.format("brand = %s\nmodel = %s\nswitchType = %s\nOut of stock!\nprice = %.2f\n",
+				    brand, model, switchType, price);
+		}
 		return result;
+	}
+	
+	public void removeStock(int num)
+	{
+		if(num <= stock)
+		{
+			stock -= num;
+		}
 	}
 	
 	
@@ -81,10 +102,10 @@ public class Keyboard
 	}
 	public void setStock(int s2)
 	{
-		stock = s2;
+		stock += s2;
 	}
 	public void setSwitchType(String st2)
 	{
 		switchType = st2;
-	}
+}
 }
