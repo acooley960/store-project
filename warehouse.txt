@@ -1,0 +1,10 @@
+Eagletec,	K104 Wireless,				Membrane,					5000,	24.99
+KLIM,		Lightning Gaming Keyboard,	Semi Mechanical,					700,	34.90
+Logitech,	G213 Gaming,				Membrane,					2300,	69.99
+Logitech,	K800 Wireless,				Membrane,					282,	99.99
+Logitech,	MK345 Wireless,				Membrane,					350,	49.99
+Razer,		Ornata Chroma,				Mecha-Membrane,					90,	98.98
+Razer,		BlackWidow Ultimate,		Razer Mechanical,					554,	109.99
+Razer,		Cynosa Chroma,				Membrane,					163,	59.99
+Redragon,	K552 RED,					Cherry MX Blue Equivalent,		420,	59.99
+VicTsing,	Gaming Keyboard,			Membrane,					1000,	28.99
