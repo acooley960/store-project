@@ -41,9 +41,9 @@ public class TestingStuff
 
 			int item = input.nextInt ( );
 			
-			Keyboard kb = keyboards[item-1];
+			Keyboard kb = keyboards[item - 1];
 			int maxBuy = keyboards[item - 1].getStock ( );
-			System.out.printf ( "Sweet! How many are you buying?\nWe have %s in stock.",maxBuy );
+			System.out.printf ( "Sweet! How many are you buying?\nWe have %s in stock.", maxBuy );
 			quantity = input.nextInt ( );
 			int missedBuy = 0;
 			while ( quantity > maxBuy )/*NEED TO FIX: Currently it will replace 
@@ -63,13 +63,21 @@ public class TestingStuff
 			// reset available stock of item
 			( (LinkedList<Cart>) cart ).get ( cartIndex ).getItem().setStock ( maxBuy-quantity );
 			totalCost += ( (LinkedList<Cart>) cart ).get(cartIndex).getPrice();
-			for(int i=0;i<cart.size();i++)
+			for(int i = 0 ; i < cart.size( ) ; i++)
 			{
-				System.out.printf ( "\nYou chose %s %s's \nThe price per keyboard was $%.2f",
-						( (LinkedList<Cart>) cart ).get(i).getQuantity(),( (LinkedList<Cart>) cart ).get(i).getBrand() ,  ( (LinkedList<Cart>) cart ).get(i).getPrice() );
+				if (( (LinkedList<Cart>) cart ).get(i).getQuantity() == 1)
+				{
+					System.out.printf ( "\nYou chose %s %s's \nThe price for that keyboard is $%.2f",
+							( (LinkedList<Cart>) cart ).get(i).getQuantity(),( (LinkedList<Cart>) cart ).get(i).getBrand() ,  ( (LinkedList<Cart>) cart ).get(i).getPrice() );
+				}
+				else
+				{
+					System.out.printf ( "\nYou chose %s %s's \nThe price for those keyboards is $%.2f",
+							( (LinkedList<Cart>) cart ).get(i).getQuantity(),( (LinkedList<Cart>) cart ).get(i).getBrand() ,  ( (LinkedList<Cart>) cart ).get(i).getPrice() );
+				}
 			}
 			System.out.println ( "\nDo you have another item? y/n" );
-			anotherItem = input.next ( ).toLowerCase().charAt(0);
+			anotherItem = input.next ( ).toLowerCase ( ).charAt ( 0 );
 			//old code commented out 22APR19Marco
 			/*
 			 Cart[] itemsAtCheckout = new Cart[20];
