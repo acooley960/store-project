@@ -59,8 +59,9 @@ public class TestingStuff
 			}
 			cart.add ( new Cart(quantity, kb) );
 			totalMissed += missedBuy;
-
-			keyboards[item - 1].setStock ( maxBuy-quantity );
+			
+			// reset available stock of item
+			( (LinkedList<Cart>) cart ).get ( cartIndex ).getItem().setStock ( maxBuy-quantity );
 			totalCost += ( (LinkedList<Cart>) cart ).get(cartIndex).getPrice();
 			for(int i=0;i<cart.size();i++)
 			{
