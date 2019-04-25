@@ -1,3 +1,10 @@
+/* Author: Aaron
+ * 
+ * Purpose: stores instances of keyboards (and future 
+ * items) and their respective quantities such that a 
+ * single cart can be made as a list in the main method
+ */
+
 package store;
 
 public class Cart
@@ -14,6 +21,7 @@ public class Cart
 		super ( ); // ?
 		this.quantity = quantity;
 		this.kb = kb;
+		// this.m = null;
 	}
 	
 	// gets the price of the item in the cart, minding quantity
