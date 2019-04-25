@@ -82,7 +82,7 @@ public class TestingStuff
 			
 			Keyboard kb = keyboards[item - 1];
 			int maxBuy = kb.getStock ( );
-			System.out.printf ( "dsSweet! How many are you buying?\nWe have %s in stock.", maxBuy );
+			System.out.printf ( "Sweet! How many are you buying?\nWe have %s in stock.", maxBuy );
 			quantity = input.nextInt ( );
 			int missedBuy = 0;
 			while ( quantity > maxBuy )/*NEED TO FIX: Currently it will replace 
@@ -220,9 +220,8 @@ public class TestingStuff
 		dummy has a purpose, even though the compiler doesn't think so
 		I know no other way to do this 
 		*/
-		int i = 0;
 		
-		for (; i < keyboards.length; i++)
+		for (int i = 0; i < keyboards.length; i++)
 		{
 			try
 			{
@@ -238,7 +237,7 @@ public class TestingStuff
 
 	// Aaron : 18 APR 19
 	// adds user input into a Keyboard array
-	public static void addMoreKeyboards( int index)
+	public static void addMoreKeyboards( int index )
 	{
 		// couldn't figure out a good way to do this block as a do while loop, but it works
 		System.out.println ( "Do you want to add another keyboard? Y/n" );
@@ -322,7 +321,7 @@ public class TestingStuff
 				
 				Keyboard kb = warehouse[item - 1];
 				int maxBuy = kb.getStock ( );
-				System.out.printf ( "dsSweet! How many are you buying?\nWe have %s in stock.", maxBuy );
+				System.out.printf ( "Sweet! How many are you buying?\nWe have %s in stock.", maxBuy );
 				quantity = input.nextInt ( );
 				while ( quantity > maxBuy )/*NEED TO FIX: Currently it will replace 
 													the quantity from the first keyboard chosen to the quantity 
