@@ -112,5 +112,5 @@ public class Keyboard
 	public void setSwitchType(String st2)
 	{
 		switchType = st2;
-}
+	}
 }
