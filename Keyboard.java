@@ -58,6 +58,7 @@ public class Keyboard
 		return result;
 	}
 	
+	// add and remove stock
 	public void removeStock(int num)
 	{
 		if(num <= stock)
