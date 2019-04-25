@@ -107,7 +107,7 @@ public class Keyboard
 	}
 	public void setStock(int s2)
 	{
-		stock += s2;
+		stock = s2;
 	}
 	public void setSwitchType(String st2)
 	{
