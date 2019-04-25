@@ -65,6 +65,10 @@ public class Keyboard
 			stock -= num;
 		}
 	}
+	public void addStock(int num)
+	{
+		stock += num;
+	}
 	
 	
 	// getters and setters
