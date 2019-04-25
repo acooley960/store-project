@@ -12,6 +12,7 @@ import java.io.*;
 public class TestingStuff
 {
 	public static List<Cart> cart = new LinkedList<>();//linked list for cart to keep track of items in cart.
+	public static List<Cart> order = new LinkedList<>();//linked list for the managers ordering cart.
 	public static Keyboard[] keyboards;
 	public static Keyboard[] warehouse;
 	public static int totalMissed = 0;
@@ -283,6 +284,86 @@ public class TestingStuff
 			}
 		}
 	}
+	public static void orderStock()
+	{
+		
+			showWarehouse();
+			char anotherKeyboard = 'y';
+			double totalCost=0.0;
+			int quantity=0;
+			int cartIndex = -1; // instantly increments inside the do-while loop, functionally starts at 0
+			do
+			{
+				
+				cartIndex++;
+				String password = "passWord4";
+				System.out.printf("The manager's password is %s\n", password);
+				System.out.print ( "What would you like to buy? Please type in the listing number: " );
+				int item = -1;
+				
+				try
+				{
+					item = input.nextInt ( );
+				}
+				catch(InputMismatchException e)
+				{
+					String attempt = input.next();
+					if (attempt.equals(password))
+					{
+						// call manager's report
+						System.out.println("Howdy!");
+						break;
+					}
+					else
+					{
+						continue;
+					}
+				}
+				
+				Keyboard kb = warehouse[item - 1];
+				int maxBuy = kb.getStock ( );
+				System.out.printf ( "dsSweet! How many are you buying?\nWe have %s in stock.", maxBuy );
+				quantity = input.nextInt ( );
+				while ( quantity > maxBuy )/*NEED TO FIX: Currently it will replace 
+													the quantity from the first keyboard chosen to the quantity 
+													of the second keyboard chosen and so on.
+													FIXED! line 68, quantity -> ( (LinkedList<Cart>) cart ).get(i).getQuantity()
+													*/
+				{
+					System.out.printf ( "We only have %s in stock! Please enter a new quantity.", maxBuy );
+					quantity = input.nextInt ( );
+				}
+				order.add ( new Cart(quantity, kb) );
+				
+				// reset available stock of item
+				( (LinkedList<Cart>) cart ).get ( cartIndex ).getItem().removeStock ( quantity );
+				totalCost += ( (LinkedList<Cart>) cart ).get(cartIndex).getPrice();
+				for(int i = 0 ; i < cart.size( ) ; i++)
+				{
+					if (( (LinkedList<Cart>) cart ).get(i).getQuantity() == 1)
+					{
+						System.out.printf ( "\nYou chose %s %s's \nThe price for that keyboard is $%.2f",
+								( (LinkedList<Cart>) cart ).get(i).getQuantity(),( (LinkedList<Cart>) cart ).get(i).getBrand() ,  ( (LinkedList<Cart>) cart ).get(i).getPrice() );
+					}
+					else
+					{
+						System.out.printf ( "\nYou chose %s %s's \nThe price for those keyboards is $%.2f",
+								( (LinkedList<Cart>) cart ).get(i).getQuantity(),( (LinkedList<Cart>) cart ).get(i).getBrand() ,  ( (LinkedList<Cart>) cart ).get(i).getPrice() );
+					}
+				}
+				totalSold+=quantity;
+				System.out.println ( "\nDo you want another keyboard? y/n" );
+				anotherKeyboard = input.next ( ).toLowerCase ( ).charAt ( 0 );
+				//old code commented out 22APR19Marco
+				/*
+				 Cart[] itemsAtCheckout = new Cart[20];
+				 itemsAtCheckout[0] = new Cart(1, keyboards[item-1]);
+				 System.out.printf ( "You owe $%.2f.", itemsAtCheckout[0].getPrice ( ) );
+				*/
+			} while ( anotherKeyboard == 'y' );
+			
+			System.out.printf ( "The total was %.2f", totalCost );
+		}
 	
 	// Aaron : 21 APR 19
 	//public static void cart(Keyboard kb, int quantity)
