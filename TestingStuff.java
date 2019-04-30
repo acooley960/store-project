@@ -32,21 +32,23 @@ public class TestingStuff
 		/*
 		 * Keyboard razer= new Keyboard ( "Razer", "Blackwidow Ultimate","Razer Mechanical Green", 6, 69.99 );
 		 * System.out.println ( razer.toString ( ) ); Keyboard keyboard1 = getKeyboard(); System.out.println ( ); Keyboard
-		 * keyboard2 = getKeyboard(); System.out.println ( ); Keyboard keyboard3 = getKeyboard();
+		 * keyboard2 = getKeyboard(); System.out.println ( ); Keyboard keyboard3 = getKeyboard(); Aaron: 16 Apr int index
+		 * = findPlace(); System.out.println ( "" + index ); addMoreKeyboards ( index );
 		 */
-		// Aaron: 16 Apr
-		// int index = findPlace();
-		// System.out.println ( "" + index );
-		// addMoreKeyboards ( index );
 		keyboards = inputFromFile ( );
 		warehouse = warehouseFile ( );
-		
-		welcomeScreen ( );
-		while ( anotherSale == 'y' )
+		char returnHome = 'y';
+		while ( returnHome == 'y' )
 		{
-			makeSale ( );
-			System.out.println ( "\nDo you have another customer?\nY/N?" );
-			anotherSale = input.next ( ).toLowerCase ( ).charAt ( 0 );
+			welcomeScreen ( );
+			while ( anotherSale == 'y' )
+			{
+				makeSale ( );
+				System.out.println ( "\nDo you have another group/customer?\nY/N?" );
+				anotherSale = input.next ( ).toLowerCase ( ).charAt ( 0 );
+			}
+			System.out.println ( "Return home?\nY/N?" );
+			returnHome = input.next().toLowerCase().charAt(0);
 		}
 		/*
 		 * Notes: - Need to have conditional statements for when we would sell something with no stock possibly have a
@@ -66,7 +68,8 @@ public class TestingStuff
 		System.out.println ( "How many people are in your group?" );
 		int groupNum = input.nextInt ( );
 		int n = 0;
-		while( n < groupNum )
+		int missedBuy = 0;
+		while ( n < groupNum )
 		{
 			do
 			{
@@ -75,35 +78,15 @@ public class TestingStuff
 				{
 					System.out.print ( "\nWhat would you like to buy?" + " Please type in the listing number: " );
 				}
-				else if(n>0)
-					
+				else if ( n > 0 )
+
 				{
-					showKeyboardMenu();
+					showKeyboardMenu ( );
 					System.out
 							.print ( "\nWhat would the next person like to buy?" + " Please type in the listing number: " );
 
 				}
-				//int item = -1;
-
-				//try
-				//{
-
 				int item = input.nextInt ( );
-				/*} catch ( InputMismatchException e )
-				{
-					String attempt = input.next ( );
-					if ( attempt.equals ( password ) )
-					{
-						System.out.println ( "Howdy!" );
-						managersReport ( );
-						break;
-					}
-					else
-					{
-						continue;
-					}
-				}*/
-
 				Keyboard kb = keyboards[item - 1];
 				int maxBuy = kb.getStock ( );
 				if ( maxBuy == 0 )
@@ -113,32 +96,22 @@ public class TestingStuff
 				}
 				System.out.printf ( "Sweet! How many are you buying?\nWe have %s in stock.", maxBuy );
 				quantity = input.nextInt ( );
-				int missedBuy = 0;
-				while ( quantity > maxBuy )/*
-													 * NEED TO FIX: Currently it will replace the quantity from the first keyboard
-													 * chosen to the quantity of the second keyboard chosen and so on. FIXED! line
-													 * 68, quantity -> ( (LinkedList<Cart>) cart ).get(i).getQuantity()
-													 */
+				while ( quantity > maxBuy )
 				{
-					missedBuy = 0;
+					missedBuy = quantity - maxBuy;
 					System.out.printf ( "We only have %s in stock! Please enter a new quantity.", maxBuy );
 					quantity = input.nextInt ( );
-					missedBuy = quantity - maxBuy;
+					
 				}
 				cart.add ( new Cart ( quantity, kb ) );
 				totalMissed += missedBuy;
-
+				missedBuy = 0;
 				// reset available stock of item
 				( (LinkedList<Cart>) cart ).get ( cartIndex ).getItem ( ).removeStock ( quantity );
 				showCart ( );
 				totalSold += quantity;
 				System.out.println ( "\nDo you want another keyboard? y/n" );
 				anotherKeyboard = input.next ( ).toLowerCase ( ).charAt ( 0 );
-				// old code commented out 22APR19Marco
-				/*
-				 * Cart[] itemsAtCheckout = new Cart[20]; itemsAtCheckout[0] = new Cart(1, keyboards[item-1]);
-				 * System.out.printf ( "You owe $%.2f.", itemsAtCheckout[0].getPrice ( ) );
-				 */
 				cartIndex++;
 
 			} while ( anotherKeyboard == 'y' );
@@ -150,9 +123,9 @@ public class TestingStuff
 				int item = input.nextInt ( );
 				removeFromCart ( item );
 			}
-				n++;
+			n++;
 		}
-		totalCost();
+		totalCost ( cart );
 
 	}
 
@@ -328,11 +301,11 @@ public class TestingStuff
 	}
 
 	public static void orderStock( )
-	{
+	{// This method allows the manager to add more stock from the "warehouse" file. It reads in a modified version of the
+		// text file using warehouseFile()
 
 		showWarehouse ( );
 		char anotherKeyboard = 'y';
-		double totalCost = 0.0;
 		int quantity = 0;
 		int cartIndex = -1; // instantly increments inside the do-while loop, functionally starts at 0
 		do
@@ -369,17 +342,17 @@ public class TestingStuff
 			}
 			// reset available stock of item
 			( (LinkedList<Cart>) order ).get ( cartIndex ).getItem ( ).removeStock ( quantity );
-			totalCost += ( (LinkedList<Cart>) order ).get ( cartIndex ).getPrice ( );
 			for ( int i = 0; i < order.size ( ); i++ )
 			{
-				if ( ( (LinkedList<Cart>) order ).get ( i ).getQuantity ( ) == 1 )
+				if ( ( (LinkedList<Cart>) order ).get ( i ).getQuantity ( ) == 1 )// if there's only one keyboard it will
+																										// print this
 				{
 					System.out.printf ( "\nYou chose %s %s's \nThe price for that keyboard is $%.2f",
 							( (LinkedList<Cart>) order ).get ( i ).getQuantity ( ),
 							( (LinkedList<Cart>) order ).get ( i ).getBrand ( ),
 							( (LinkedList<Cart>) order ).get ( i ).getPrice ( ) );
 				}
-				else
+				else // else it will print this
 				{
 					System.out.printf ( "\nYou chose %s %s's \nThe price for those keyboards is $%.2f",
 							( (LinkedList<Cart>) order ).get ( i ).getQuantity ( ),
@@ -389,13 +362,8 @@ public class TestingStuff
 			}
 			System.out.println ( "\nDo you have more keyboards to order? y/n" );
 			anotherKeyboard = input.next ( ).toLowerCase ( ).charAt ( 0 );
-			// old code commented out 22APR19Marco
-			/*
-			 * Cart[] itemsAtCheckout = new Cart[20]; itemsAtCheckout[0] = new Cart(1, keyboards[item-1]);
-			 * System.out.printf ( "You owe $%.2f.", itemsAtCheckout[0].getPrice ( ) );
-			 */
 		} while ( anotherKeyboard == 'y' );
-
+		totalCost ( order );
 	}
 
 	public static void makeSolidLine( int stars )
@@ -412,28 +380,35 @@ public class TestingStuff
 	{
 		System.out.println ( "Welcome to Aaron and Marco's Keyboard store!\nWould you like to make a sale?\nY/N?" );
 		anotherSale = input.next ( ).toLowerCase ( ).charAt ( 0 );
-		char enterPassword = 'y';
+
 		if ( anotherSale == 'n' )
 		{
-			System.out.println ( "Would you like to enter the Managers Report?\nY/N?" );
-			enterPassword = input.next ( ).toLowerCase ( ).charAt ( 0 );
-			while ( enterPassword == 'y' )
+			System.out.println ( "Please enter the managers password(passWord4)" );
+			String attempt = input.next ( );
+			if ( attempt.equals ( password ) )
 			{
-				System.out.println ( "Please enter the managers password(passWord4)" );
-				String attempt = input.next ( );
-				if ( attempt.equals ( password ) )
+				managersReport ( );
+			}
+			else
+			{
+				boolean correctAttempt = false;
+				while ( correctAttempt == false )
 				{
-					managersReport ( );
-					break;
+					System.out
+							.println ( "You've entered the password incorrect.\nPlease re-enter the password.(passWord4)" );
+					attempt = input.next ( );
+					if ( attempt.equals ( password ) )
+					{
+						correctAttempt = true;
+					}
+					else
+					{
+						continue;
+					}
 				}
-				else
-				{
-					System.out.println ( "You've entered the password incorrect." );
-					continue;
-				}
+				managersReport ( );
 			}
 		}
-
 	}
 
 	public static void showCart( )
@@ -461,7 +436,7 @@ public class TestingStuff
 	}
 
 	public static void removeFromCart( int num )
-	{
+	{// this method allows the customer to remove items from their cart
 		char anotherRemove = 'y';
 		int removeNum = 1;
 		do
@@ -476,7 +451,7 @@ public class TestingStuff
 					System.out.println ( "You can't remove more than in your cart.\nPlease enter a valid number." );
 					removeNum = input.nextInt ( );
 				}
-
+				totalSold-=removeNum;
 				cart.get ( num - 1 ).removeQuantity ( removeNum );
 			}
 			int removalUPC = cart.get ( num - 1 ).getUPC ( );
@@ -490,7 +465,7 @@ public class TestingStuff
 	}
 
 	public static int matchUPC( int num )
-	{
+	{// allows us to match the keyboard in cart to the keyboard in our store for tracking purposes.
 		for ( int i = 0; i < keyboards.length; i++ )
 		{
 			try
@@ -509,18 +484,17 @@ public class TestingStuff
 	// Aaron : 21 APR 19
 	// public static void cart(Keyboard kb, int quantity)
 
-	public static void totalCost( )
-	{
+	public static void totalCost( List<Cart> list )
+	{// prints out the total cost of the cart or order depending on if you are the manager or customer.
 		double totalCost = 0;
 		for ( Cart c : cart )
 		{
 			totalCost += c.getPrice ( );
 		}
-		System.out.printf ( "The total cost is %s", totalCost);
-		}
+		System.out.printf ( "The total cost is %.2f", totalCost );
+	}
 
 }
-
 
 /*
  * 17APR19MARCO: added getKeyboard method and added lines 21-26 18APR19AARON: added way to read from file into an array,
