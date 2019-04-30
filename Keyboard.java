@@ -17,7 +17,7 @@ public class Keyboard
 	private int stock; // how many we have in-store
 	private double price; // how much each keyboard costs to purchase
 	private String switchType; // the type of switch that the keyboard uses
-	
+	private int upc;// personal ID for each keyboard
 	public Keyboard()
 	{
 		brand = "null";
@@ -27,13 +27,14 @@ public class Keyboard
 		switchType = "null";
 	}
 	// constructor and toString
-	public Keyboard(String b1, String m1, String st1, int s1, double p1)
+	public Keyboard(String b1, String m1, String st1, int s1, double p1, int upc1)
 	{
 		brand = b1;
 		model = m1;
 		stock = s1;
 		price = p1;
 		switchType = st1;
+		upc = upc1;
 	}
 	public String toString()
 	{
@@ -45,7 +46,7 @@ public class Keyboard
 	{
 		String result = String.format("brand = %s\nmodel = %s\nswitchType = %s\nstock = %s\nprice = %.2f\n",
 				    brand, model, switchType, stock, price);
-		if (stock > 5)
+		if (stock > 10)
 		{
 			result = String.format("brand = %s\nmodel = %s\nswitchType = %s\nIn stock\nprice = %.2f\n",
 				    brand, model, switchType, price);
@@ -57,8 +58,18 @@ public class Keyboard
 		}
 		return result;
 	}
-	
-	// add and remove stock
+	public String toStringWarehouse()
+	{
+		String result = String.format("brand = %s\nmodel = %s\nswitchType = %s\nstock = %s\nprice = %.2f\n",
+				    brand, model, switchType, stock, price);
+		
+		if (stock == 0)
+		{
+			result = String.format("brand = %s\nmodel = %s\nswitchType = %s\nOut of stock!\nprice = %.2f\n",
+				    brand, model, switchType, price);
+		}
+		return result;
+	}
 	public void removeStock(int num)
 	{
 		if(num <= stock)
@@ -68,7 +79,7 @@ public class Keyboard
 	}
 	public void addStock(int num)
 	{
-		stock += num;
+		stock+=num;
 	}
 	
 	
@@ -89,6 +100,10 @@ public class Keyboard
 	{
 		return stock;
 	}
+	public int getUPC()
+	{
+		return upc;
+	}
 	public String getSwitchType()
 	{
 		return switchType;
@@ -107,10 +122,14 @@ public class Keyboard
 	}
 	public void setStock(int s2)
 	{
-		stock = s2;
+		stock += s2;
 	}
 	public void setSwitchType(String st2)
 	{
 		switchType = st2;
+	}
+	public void setUPC(int upcNum)
+	{
+		upc = upcNum;
 	}
 }

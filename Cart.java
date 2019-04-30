@@ -1,10 +1,10 @@
-/* Author: Aaron
+/* Author: Aaron Cooley & Marco Rojas
+ * Date: 15 Apr. 2019
+ * Class: CSC160-Combo
+ * Assignment: Store Part 1
  * 
- * Purpose: stores instances of keyboards (and future 
- * items) and their respective quantities such that a 
- * single cart can be made as a list in the main method
+ * Test the item class by creating an object and printing the toString
  */
-
 package store;
 
 public class Cart
@@ -21,7 +21,6 @@ public class Cart
 		super ( ); // ?
 		this.quantity = quantity;
 		this.kb = kb;
-		// this.m = null;
 	}
 	
 	// gets the price of the item in the cart, minding quantity
@@ -37,6 +36,7 @@ public class Cart
 			/* embedded try/catch statements for other store items
 			   (like key caps or mice) would go in here	*/
 		}
+		
 		return quantity * price;
 	}
 	// same logic as this class's getPrice, but for the brand
@@ -54,10 +54,27 @@ public class Cart
 		}
 		return result;
 	}
+
+	public int getUPC( )
+	{
+		return this.kb.getUPC ( );
+		
+	}
 	// returns the item of the cart, would be overloaded
 	public Keyboard getItem()
 	{
 		return kb;
+	}
+	public void removeQuantity(int num)
+	{
+		if(num <= quantity)
+		{
+			quantity -= num;
+		}
+	}
+	public void addQuantity(int num)
+	{
+		quantity+=num;
 	}
 	
 	
@@ -81,6 +98,7 @@ public class Cart
 	{
 		this.quantity = quantity;
 	}
+
 	
 
 }
