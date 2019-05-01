@@ -43,6 +43,7 @@ public class TestingStuff
 			welcomeScreen ( );
 			while ( anotherSale == 'y' )
 			{
+				cart.clear ( );
 				makeSale ( );
 				System.out.println ( "\nDo you have another group/customer?\nY/N?" );
 				anotherSale = input.next ( ).toLowerCase ( ).charAt ( 0 );
@@ -59,6 +60,8 @@ public class TestingStuff
 
 	}
 
+	// Mostly Marco
+	// allows people to add things to their cart
 	public static void makeSale( )
 	{
 		showKeyboardMenu ( );
@@ -76,14 +79,15 @@ public class TestingStuff
 
 				if ( n == 0 )
 				{
-					System.out.print ( "\nWhat would you like to buy?" + " Please type in the listing number: " );
+					System.out.print ( "\nWhat would you like to buy?" 
+							+ " Please type in the listing number: " );
 				}
 				else if ( n > 0 )
 
 				{
 					showKeyboardMenu ( );
-					System.out
-							.print ( "\nWhat would the next person like to buy?" + " Please type in the listing number: " );
+					System.out.print ( "\nWhat would the next person like to buy?" 
+							+ " Please type in the listing number: " );
 
 				}
 				int item = input.nextInt ( );
@@ -126,10 +130,12 @@ public class TestingStuff
 			n++;
 		}
 		totalCost ( cart );
+		cart.clear ( );
 
 	}
 
 	// 26APR2019MARCO
+	// shows the manager's report
 	public static void managersReport( )
 	{
 		makeSolidLine ( 50 );
@@ -285,6 +291,8 @@ public class TestingStuff
 		}
 	}
 
+	// Marco
+	// shows the menu for ordering from the warehouse
 	public static void showWarehouse( )
 	{
 		// Testing what's in the array, possibly turn this into a method later
@@ -300,6 +308,8 @@ public class TestingStuff
 		}
 	}
 
+	// Marco
+	// just like the makeSale method, but for ordering from the warehouse
 	public static void orderStock( )
 	{// This method allows the manager to add more stock from the "warehouse" file. It reads in a modified version of the
 		// text file using warehouseFile()
@@ -347,14 +357,14 @@ public class TestingStuff
 				if ( ( (LinkedList<Cart>) order ).get ( i ).getQuantity ( ) == 1 )// if there's only one keyboard it will
 																										// print this
 				{
-					System.out.printf ( "\nYou chose %s %s's \nThe price for that keyboard is $%.2f",
+					System.out.printf ( "\nYou chose %s %s\nThe price for that keyboard is $%.2f",
 							( (LinkedList<Cart>) order ).get ( i ).getQuantity ( ),
 							( (LinkedList<Cart>) order ).get ( i ).getBrand ( ),
 							( (LinkedList<Cart>) order ).get ( i ).getPrice ( ) );
 				}
 				else // else it will print this
 				{
-					System.out.printf ( "\nYou chose %s %s's \nThe price for those keyboards is $%.2f",
+					System.out.printf ( "\nYou chose %s %s's\nThe price for those keyboards is $%.2f",
 							( (LinkedList<Cart>) order ).get ( i ).getQuantity ( ),
 							( (LinkedList<Cart>) order ).get ( i ).getBrand ( ),
 							( (LinkedList<Cart>) order ).get ( i ).getPrice ( ) );
@@ -366,6 +376,8 @@ public class TestingStuff
 		totalCost ( order );
 	}
 
+	// Marco
+	// just like in Mancala
 	public static void makeSolidLine( int stars )
 	{
 		for ( int num2 = 0; num2 < stars; num2++ )
@@ -376,6 +388,8 @@ public class TestingStuff
 		System.out.println ( );
 	}
 
+	// Marco
+	// The first thing that shows up, which then directs to makeSale or managersReport
 	public static void welcomeScreen( )
 	{
 		System.out.println ( "Welcome to Aaron and Marco's Keyboard store!\nWould you like to make a sale?\nY/N?" );
@@ -411,6 +425,8 @@ public class TestingStuff
 		}
 	}
 
+	// Mostly Marco, some edits by Aaron
+	// basically prints a receipt to the console
 	public static void showCart( )
 	{
 		makeSolidLine ( 50 );
@@ -418,14 +434,14 @@ public class TestingStuff
 		{
 			if ( ( (LinkedList<Cart>) cart ).get ( i ).getQuantity ( ) == 1 )
 			{// If there is only one keyboard
-				System.out.printf ( "\n%s)\nYou chose %s %s \nThe price for that keyboard is $%.2f", i + 1,
+				System.out.printf ( "\n%s)\nYou chose %s %s\nThe price for that keyboard is $%.2f", i + 1,
 						( (LinkedList<Cart>) cart ).get ( i ).getQuantity ( ),
 						( (LinkedList<Cart>) cart ).get ( i ).getBrand ( ),
 						( (LinkedList<Cart>) cart ).get ( i ).getPrice ( ) );
 			}
 			else
 			{// If there are multiple keyboards
-				System.out.printf ( "\n%s)\nYou chose %s %s's \nThe price for those keyboards is $%.2f", i + 1,
+				System.out.printf ( "\n%s)\nYou chose %s %s's\nThe price for those keyboards is $%.2f", i + 1,
 						( (LinkedList<Cart>) cart ).get ( i ).getQuantity ( ),
 						( (LinkedList<Cart>) cart ).get ( i ).getBrand ( ),
 						( (LinkedList<Cart>) cart ).get ( i ).getPrice ( ) );
@@ -435,6 +451,8 @@ public class TestingStuff
 		makeSolidLine ( 50 );
 	}
 
+	// Aaron and Marco collaboration
+	// removes items from the cart
 	public static void removeFromCart( int num )
 	{// this method allows the customer to remove items from their cart
 		char anotherRemove = 'y';
@@ -448,12 +466,12 @@ public class TestingStuff
 				removeNum = input.nextInt ( );
 				while ( removeNum > quantity )
 				{
-					System.out.println ( "You can't remove more than in your cart.\nPlease enter a valid number." );
+					System.out.println ( "You can't remove more than what is already in your cart.\nPlease enter a valid number." );
 					removeNum = input.nextInt ( );
 				}
-				totalSold-=removeNum;
-				cart.get ( num - 1 ).removeQuantity ( removeNum );
 			}
+			totalSold-=removeNum;
+			cart.get ( num - 1 ).removeQuantity ( removeNum );
 			int removalUPC = cart.get ( num - 1 ).getUPC ( );
 			int addUPC = matchUPC ( removalUPC );
 			keyboards[addUPC].addStock ( removeNum );
@@ -464,8 +482,10 @@ public class TestingStuff
 		} while ( anotherRemove == 'y' );
 	}
 
+	// Aaron
+	// allows us to match the keyboard in cart to the keyboard in our store for tracking purposes.
 	public static int matchUPC( int num )
-	{// allows us to match the keyboard in cart to the keyboard in our store for tracking purposes.
+	{
 		for ( int i = 0; i < keyboards.length; i++ )
 		{
 			try
@@ -481,9 +501,9 @@ public class TestingStuff
 		}
 		return -1;
 	}
-	// Aaron : 21 APR 19
-	// public static void cart(Keyboard kb, int quantity)
-
+	
+	// Marco
+	// calculates the total cost for checkout
 	public static void totalCost( List<Cart> list )
 	{// prints out the total cost of the cart or order depending on if you are the manager or customer.
 		double totalCost = 0;
